@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+    <script src="https://mapbox.github.io/mapbox-gl-language/index.js"></script>
+    <script src="https://unpkg.com/@rtirl/api@latest/lib/index.min.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div style="position: relative; width: 100%; height: 100%">
+      <div id="map" style="width: 300px; height: 250px"></div>
+      <div
+        id="marker"
+        style="
+          background-color: cyan;
+          height: 12px;
+          width: 12px;
+          position: absolute;
+          border-radius: 50%;
+          top: 119px;
+          left: 144px;
+          box-shadow: 0 0 10px cyan;
+        "
+      ></div>
+    </div>
+    <script>
+      var params = new URLSearchParams(window.location.search);
+      if (params.get("fullscreen")) {
+        document.documentElement.setAttribute(
+          "style",
+          "margin: 0; padding: 0; width: 100%; height: 100%;"
+        );
+        document.body.setAttribute(
+          "style",
+          "margin: 0; padding: 0; width: 100%; height: 100%;"
+        );
+        document
+          .getElementById("map")
+          .setAttribute("style", "height: 100%; width: 100%;");
+        document.getElementById("marker").style.top = "calc(50% - 6px)";
+        document.getElementById("marker").style.left = "calc(50% - 6px)";
+      }
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiampqampqampqampqampqampqaiIsImEiOiJjbDU4b3UzejQwMmQwM2VxcWpxcGwzY2pxIn0.DiKbniZAe4dj4LegD3iBqA";
+      var zoom = params.get("zoom");
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        interactive: false,
+        attributionControl: false,
+        zoom: 17.5,
+        pitch: 45,
+        bearing: -10.6,
+        antialias: true,
+      });
+
+      map.on("load", () => {
+        // Insert the layer beneath any symbol layer.
+        const layers = map.getStyle().layers;
+        const labelLayerId = layers.find(
+          (layer) => layer.type === "symbol" && layer.layout["text-field"]
+        ).id;
+
+        // The 'building' layer in the Mapbox Streets
+        // vector tileset contains building height data
+        // from OpenStreetMap.
+        map.addLayer(
+          {
+            id: "add-3d-buildings",
+            source: "composite",
+            "source-layer": "building",
+            filter: ["==", "extrude", "true"],
+            type: "fill-extrusion",
+            minzoom: 15,
+            paint: {
+              "fill-extrusion-color": "#aaa",
+
+              // Use an 'interpolate' expression to
+              // add a smooth transition effect to
+              // the buildings as the user zooms in.
+              "fill-extrusion-height": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                15,
+                0,
+                15.05,
+                ["get", "height"],
+              ],
+              "fill-extrusion-base": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                15,
+                0,
+                15.05,
+                ["get", "min_height"],
+              ],
+              "fill-extrusion-opacity": 0.6,
+            },
+          },
+          labelLayerId
+        );
+      });
+
+      map.addControl(
+        new MapboxLanguage({ defaultLanguage: params.get("lang") || "en" })
+      );
+
+      const pullKey = new URLSearchParams(window.location.search).get("key");
+      RealtimeIRL.forPullKey(pullKey).addLocationListener(function (location) {
+        console.log(location);
+        map.panTo([location.longitude, location.latitude], {
+          duration: 1500,
+          easing: (x) => x,
+        });
+      });
+
+      RealtimeIRL.forPullKey(pullKey).addHeadingListener(function (heading) {
+        console.log(heading);
+        map.setBearing(heading);
+      });
+    </script>
+  </body>
+</html>
