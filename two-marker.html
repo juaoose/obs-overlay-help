@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+    <script src="https://mapbox.github.io/mapbox-gl-language/index.js"></script>
+    <script src="https://unpkg.com/@rtirl/api@latest/lib/index.min.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div style="position: relative; width: 100%; height: 100%">
+      <div id="map" style="width: 300px; height: 250px"></div>
+    </div>
+    <script>
+      var params = new URLSearchParams(window.location.search);
+      // You have to get your own mapbox acces token at mapbox.com, it has a free tier :)
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiampqampqampqampqampqampqaiIsImEiOiJja290MThwMzIwNjNkMndwaHR5djlhYThqIn0.zULjRWtxmVmaWe-FDobI-A";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        interactive: false,
+        attributionControl: false,
+        zoom: 5,
+      });
+      map.addControl(new MapboxLanguage({ defaultLanguage: "en" }));
+
+      const marker1 = new mapboxgl.Marker()
+        .setLngLat([12.554729, 55.70651])
+        .addTo(map);
+
+      const marker2 = new mapboxgl.Marker()
+        .setLngLat([12.554729, 55.70651])
+        .addTo(map);
+
+      //TODO Change for the streamers twitch ids
+      const myStreamerId = params.get("streamerId");
+      const otherStreamerId = params.get("otherStreamerId");
+      RealtimeIRL.forStreamer("twitch", myStreamerId).addLocationListener(
+        function (location) {
+          marker1.setLngLat([location.longitude, location.latitude]);
+          fitBounds();
+        }
+      );
+
+      RealtimeIRL.forStreamer("twitch", otherStreamerId).addLocationListener(
+        function (location) {
+          marker2.setLngLat([location.longitude, location.latitude]);
+          fitBounds();
+        }
+      );
+
+      function fitBounds() {
+        map.fitBounds([marker1.getLngLat(), marker2.getLngLat()], {
+          padding: 30,
+        });
+      }
+    </script>
+  </body>
+</html>
