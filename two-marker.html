@@ -28,7 +28,7 @@
       });
       map.addControl(new MapboxLanguage({ defaultLanguage: "en" }));
 
-      const marker1 = new mapboxgl.Marker()
+      const marker1 = new mapboxgl.Marker({ color: "red" })
         .setLngLat([12.554729, 55.70651])
         .addTo(map);
 
