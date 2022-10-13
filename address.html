@@ -28,10 +28,10 @@
       var i = 0;
 
       var params = new URLSearchParams(window.location.search);
-      var pullKey = new URLSearchParams(window.location.search).get("key");
+      var pullKey = params.get("key");
       var format =
-        atob(new URLSearchParams(window.location.search).get("format")) ||
-        "${data.neighborhood ? data.neighborhood.text + ', ' : ''}${data.place?.text}";
+        atob(params.get("format")) ||
+        "${data.place?.text}";
 
       RealtimeIRL.forPullKey(pullKey).addLocationListener(function (location) {
         if (i++ % 50 == 0) {
