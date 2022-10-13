@@ -29,9 +29,9 @@
 
       var params = new URLSearchParams(window.location.search);
       var pullKey = params.get("key");
-      var format =
-        atob(params.get("format")) ||
-        "${data.place?.text}";
+      var format = params.get("format")
+        ? atob(params.get("format"))
+        : "${data.place?.text}";
 
       RealtimeIRL.forPullKey(pullKey).addLocationListener(function (location) {
         if (i++ % 50 == 0) {
