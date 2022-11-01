@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+    <script src="https://mapbox.github.io/mapbox-gl-language/index.js"></script>
+    <script src="https://unpkg.com/@rtirl/api@latest/lib/index.min.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div style="position: relative; width: 100%; height: 100%">
+      <div id="map" style="width: 100%; height: 100%"></div>
+      <div
+        id="marker"
+        style="
+          background-color: cyan;
+          height: 12px;
+          width: 12px;
+          position: absolute;
+          border-radius: 50%;
+          top: 119px;
+          left: 144px;
+          box-shadow: 0 0 10px cyan;
+        "
+      ></div>
+    </div>
+    <script>
+      var params = new URLSearchParams(window.location.search);
+      if (params.get("fullscreen")) {
+        document.documentElement.setAttribute(
+          "style",
+          "margin: 0; padding: 0; width: 100%; height: 100%;"
+        );
+        document.body.setAttribute(
+          "style",
+          "margin: 0; padding: 0; width: 100%; height: 100%;"
+        );
+        document
+          .getElementById("map")
+          .setAttribute("style", "height: 100%; width: 100%;");
+        document.getElementById("marker").style.top = "calc(50% - 6px)";
+        document.getElementById("marker").style.left = "calc(50% - 6px)";
+      }
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiampqampqampqampqampqampqaiIsImEiOiJja290MThwMzIwNjNkMndwaHR5djlhYThqIn0.zULjRWtxmVmaWe-FDobI-A";
+      var zoom = params.get("zoom");
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        interactive: true,
+        attributionControl: false,
+        zoom: zoom ? Number(zoom) : 13,
+      });
+      map.addControl(
+        new MapboxLanguage({ defaultLanguage: params.get("lang") || "en" })
+      );
+
+      map.on("load", () => {
+        fetch("https://layer.bicyclesharing.net/map/v1/nyc/stations").then(
+          (response) => console.log(response)
+        );
+
+        // map.addSource("earthquakes", {
+        //   type: "geojson",
+        //   // Use a URL for the value for the `data` property.
+        //   data: "https://layer.bicyclesharing.net/map/v1/nyc/stations",
+        // });
+
+        // map.addLayer({
+        //   id: "earthquakes-layer",
+        //   type: "circle",
+        //   source: "earthquakes",
+        //   paint: {
+        //     "circle-radius": 4,
+        //     "circle-stroke-width": 2,
+        //     "circle-color": "red",
+        //     "circle-stroke-color": "white",
+        //   },
+        // });
+      });
+
+      // const pullKey = new URLSearchParams(window.location.search).get("key");
+      // RealtimeIRL.forPullKey(pullKey).addLocationListener(function (location) {
+      //   console.log(location);
+      //   map.panTo([location.longitude, location.latitude], {
+      //     duration: 1500,
+      //     easing: (x) => x,
+      //   });
+      // });
+    </script>
+  </body>
+</html>
