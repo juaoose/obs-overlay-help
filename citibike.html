@@ -135,7 +135,7 @@
         .setLngLat([12.554729, 55.70651])
         .addTo(map);
 
-      const myStreamerId = params.get("streamerId") ?? "twitch:437343696";
+      const myStreamerId = params.get("streamerId") ?? "437343696";
       RealtimeIRL.forStreamer("twitch", myStreamerId).addLocationListener(
         function (location) {
           marker1.setLngLat([location.longitude, location.latitude]);
