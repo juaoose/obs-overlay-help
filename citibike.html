@@ -61,27 +61,27 @@
       map.on("load", () => {
         fetch("https://layer.bicyclesharing.net/map/v1/nyc/stations")
           .then((response) => response.json())
-          .then((data) =>
+          .then((data) => {
             map.addSource("route", {
               type: "geojson",
               data: {
                 type: "FeatureCollection",
                 features: data.features,
               },
-            })
-          );
+            });
 
-        map.addLayer({
-          id: "earthquakes-layer",
-          type: "circle",
-          source: "route",
-          paint: {
-            "circle-radius": 4,
-            "circle-stroke-width": 2,
-            "circle-color": "red",
-            "circle-stroke-color": "white",
-          },
-        });
+            map.addLayer({
+              id: "earthquakes-layer",
+              type: "circle",
+              source: "route",
+              paint: {
+                "circle-radius": 4,
+                "circle-stroke-width": 2,
+                "circle-color": "red",
+                "circle-stroke-color": "white",
+              },
+            });
+          });
       });
 
       // const pullKey = new URLSearchParams(window.location.search).get("key");
