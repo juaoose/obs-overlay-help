@@ -104,7 +104,8 @@
               <p>Bike Angel Action: ${e.features[0].properties.bike_angels_action}</p>
               <p>Bike Angel Points: ${e.features[0].properties.bike_angels_points}</p>
               <p>Bike Angel Digits: ${e.features[0].properties.bike_angels_digits}</p>
-              <p>Bikes Available: ${e.features[0].properties.bikes_available}</p>`;
+              <p>Bikes Available: ${e.features[0].properties.bikes_available}</p>
+              <p>Last Reported: ${new Date(e.features[0].properties.last_reported * 1000)}</p>`;
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
