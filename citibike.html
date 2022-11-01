@@ -130,14 +130,16 @@
           });
       });
 
-      // const pullKey = new URLSearchParams(window.location.search).get("key");
-      // RealtimeIRL.forPullKey(pullKey).addLocationListener(function (location) {
-      //   console.log(location);
-      //   map.panTo([location.longitude, location.latitude], {
-      //     duration: 1500,
-      //     easing: (x) => x,
-      //   });
-      // });
+      const marker1 = new mapboxgl.Marker({ color: "red" })
+        .setLngLat([12.554729, 55.70651])
+        .addTo(map);
+
+      const myStreamerId = params.get("streamerId");
+      RealtimeIRL.forStreamer("twitch", myStreamerId).addLocationListener(
+        function (location) {
+          marker1.setLngLat([location.longitude, location.latitude]);
+        }
+      );
     </script>
   </body>
 </html>
