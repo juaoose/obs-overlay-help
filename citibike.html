@@ -71,23 +71,17 @@
             })
           );
 
-        // map.addSource("earthquakes", {
-        //   type: "geojson",
-        //   // Use a URL for the value for the `data` property.
-        //   data: "https://layer.bicyclesharing.net/map/v1/nyc/stations",
-        // });
-
-        // map.addLayer({
-        //   id: "earthquakes-layer",
-        //   type: "circle",
-        //   source: "earthquakes",
-        //   paint: {
-        //     "circle-radius": 4,
-        //     "circle-stroke-width": 2,
-        //     "circle-color": "red",
-        //     "circle-stroke-color": "white",
-        //   },
-        // });
+        map.addLayer({
+          id: "earthquakes-layer",
+          type: "circle",
+          source: "route",
+          paint: {
+            "circle-radius": 4,
+            "circle-stroke-width": 2,
+            "circle-color": "red",
+            "circle-stroke-color": "white",
+          },
+        });
       });
 
       // const pullKey = new URLSearchParams(window.location.search).get("key");
