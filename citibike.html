@@ -59,9 +59,17 @@
       );
 
       map.on("load", () => {
-        fetch("https://layer.bicyclesharing.net/map/v1/nyc/stations").then(
-          (response) => console.log(response)
-        );
+        fetch("https://layer.bicyclesharing.net/map/v1/nyc/stations")
+          .then((response) => response.json())
+          .then((data) =>
+            map.addSource("route", {
+              type: "geojson",
+              data: {
+                type: "FeatureCollection",
+                features: data,
+              },
+            })
+          );
 
         // map.addSource("earthquakes", {
         //   type: "geojson",
