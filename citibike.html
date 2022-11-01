@@ -13,7 +13,7 @@
   <body>
     <div style="position: relative; width: 100%; height: 100%">
       <div id="map" style="width: 100%; height: 100%"></div>
-      <div id="legend">
+      <div id="legend" style="background-color: white; z-index: 100">
         <p>
           Terry's identifier is TB311 on the
           <a href="https://account.citibikenyc.com/rewards/leaderboard"
@@ -101,11 +101,21 @@
               // Copy coordinates array.
               const coordinates = e.features[0].geometry.coordinates.slice();
               const name = `<strong>${e.features[0].properties.name}</strong>
-              <p>Bike Angel Action: ${e.features[0].properties.bike_angels_action}</p>
-              <p>Bike Angel Points: ${e.features[0].properties.bike_angels_points}</p>
-              <p>Bike Angel Digits: ${e.features[0].properties.bike_angels_digits}</p>
-              <p>Bikes Available: ${e.features[0].properties.bikes_available}</p>
-              <p>Last Reported: ${new Date(e.features[0].properties.last_reported * 1000)}</p>`;
+              <p>Bike Angel Action: ${
+                e.features[0].properties.bike_angels_action
+              }</p>
+              <p>Bike Angel Points: ${
+                e.features[0].properties.bike_angels_points
+              }</p>
+              <p>Bike Angel Digits: ${
+                e.features[0].properties.bike_angels_digits
+              }</p>
+              <p>Bikes Available: ${
+                e.features[0].properties.bikes_available
+              }</p>
+              <p>Last Reported: ${new Date(
+                e.features[0].properties.last_reported * 1000
+              )}</p>`;
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
