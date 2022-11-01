@@ -54,6 +54,7 @@
         interactive: true,
         attributionControl: false,
         zoom: zoom ? Number(zoom) : 13,
+        center: [40.67335610193093, -73.97337565999663],
       });
       map.addControl(
         new MapboxLanguage({ defaultLanguage: params.get("lang") || "en" })
