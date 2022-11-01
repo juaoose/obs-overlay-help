@@ -74,7 +74,7 @@
               id: "stations",
               type: "circle",
               source: "route",
-              filter: ["!=", ["get", "bike_angels_action"], "undefined"],
+              filter: ["!=", ["get", "bike_angels_action"], null],
               paint: {
                 "circle-radius": 4,
                 "circle-stroke-width": 2,
