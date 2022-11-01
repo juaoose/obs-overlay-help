@@ -77,7 +77,16 @@
               paint: {
                 "circle-radius": 4,
                 "circle-stroke-width": 2,
-                "circle-color": "red",
+                "circle-color": [
+                  "match",
+                  ["get", "bike_angels_action"],
+                  "take",
+                  "red",
+                  "give",
+                  "green",
+                  "neutral",
+                  "grey",
+                ],
                 "circle-stroke-color": "white",
               },
             });
