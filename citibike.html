@@ -65,7 +65,7 @@
         interactive: true,
         attributionControl: false,
         zoom: zoom ? Number(zoom) : 13,
-        center: [-73.97337565999663, 40.67335610193093],
+        center: [-73.97694530374439, 40.714999683782935],
       });
       map.addControl(
         new MapboxLanguage({ defaultLanguage: params.get("lang") || "en" })
@@ -110,41 +110,6 @@
             const popup = new mapboxgl.Popup({
               closeButton: true,
               closeOnClick: true,
-            });
-
-            map.on("mouseenter", "stations", (e) => {
-              // Change the cursor style as a UI indicator.
-              map.getCanvas().style.cursor = "pointer";
-
-              // Copy coordinates array.
-              const coordinates = e.features[0].geometry.coordinates.slice();
-              const name = `<strong>${e.features[0].properties.name}</strong>
-              <p>Bike Angel Action: ${
-                e.features[0].properties.bike_angels_action
-              }</p>
-              <p>Bike Angel Points: ${
-                e.features[0].properties.bike_angels_points
-              }</p>
-              <p>Bike Angel Digits: ${
-                e.features[0].properties.bike_angels_digits
-              }</p>
-              <p>Bikes Available: ${
-                e.features[0].properties.bikes_available
-              }</p>
-              <p>Last Reported: ${new Date(
-                e.features[0].properties.last_reported * 1000
-              )}</p>`;
-
-              // Ensure that if the map is zoomed out such that multiple
-              // copies of the feature are visible, the popup appears
-              // over the copy being pointed to.
-              while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-              }
-
-              // Populate the popup and set its coordinates
-              // based on the feature found.
-              popup.setLngLat(coordinates).setHTML(name).addTo(map);
             });
 
             map.on("click", "stations", (e) => {
