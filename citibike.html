@@ -94,7 +94,10 @@
 
               // Copy coordinates array.
               const coordinates = e.features[0].geometry.coordinates.slice();
-              const name = `<strong>${e.features[0].properties.name}</strong><p>${e.features[0].properties.description}</p><p>${e.features[0].properties.bike_angels_action}</p>`;
+              const name = `<strong>${e.features[0].properties.name}</strong>
+              <p>Action: ${e.features[0].properties.bike_angels_action}</p>
+              <p>Points: ${e.features[0].properties.bike_angels_points}</p>
+              <p>Bikes Available: ${e.features[0].properties.bikes_available}</p>`;
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
