@@ -1,6 +1,7 @@
 const pullKey = "<YOUR_RTIRL_PULL_KEY>";
 
 var app;
+var timer;
 
 addEventListener("load", onReady);
 
