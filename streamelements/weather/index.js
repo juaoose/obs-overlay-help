@@ -2,6 +2,7 @@ const pullKey = "<YOUR_RTIRL_PULL_KEY>";
 const temp_unit = "celsius"; // "celsius" or "fahrenheit"
 
 var app;
+var i = 0;
 
 addEventListener("load", onReady);
 
